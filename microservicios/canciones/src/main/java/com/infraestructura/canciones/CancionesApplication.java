@@ -1,13 +1,13 @@
-package com.infraestructura.microservicios;
+package com.infraestructura.canciones;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MicroserviciosApplication {
+public class CancionesApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MicroserviciosApplication.class, args);
+		SpringApplication.run(CancionesApplication.class, args);
 	}
 
 }

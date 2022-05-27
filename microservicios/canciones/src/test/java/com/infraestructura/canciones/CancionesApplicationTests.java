@@ -1,10 +1,10 @@
-package com.infraestructura.microservicios;
+package com.infraestructura.canciones;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MicroserviciosApplicationTests {
+class CancionesApplicationTests {
 
 	@Test
 	void contextLoads() {
