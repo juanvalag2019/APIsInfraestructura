@@ -16,6 +16,8 @@ public interface CancionService {
 
     public String deleteSong(Long idCancion);
 
+    public String deleteSongs(Long idAutor);
+
     public Cancion updateSong(String nomSong, Cancion song);
 
     public Cancion getSongByName(String nomSong);

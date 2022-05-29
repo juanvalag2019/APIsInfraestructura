@@ -24,7 +24,7 @@ public class CancionServiceImpl implements CancionService {
 
     @Override
     public Cancion createSong(Cancion cancion) {
-        String url = "http://localhost:8081/api/autors/" + cancion.getIdAutor();
+        String url = "http://localhost:8081/api/autors/" + cancion.getAutor();
         Autor autor = (Autor) restTemplate.getForObject(url, Autor.class);
         if(autor != null){
             return cancionRepository.save(cancion);    
@@ -63,6 +63,12 @@ public class CancionServiceImpl implements CancionService {
         Cancion old = getSongByName(nomSong);
         song.setId(old.getId());
         return cancionRepository.save(song);        
+    }
+
+    @Override
+    public String deleteSongs(Long idAutor) {
+        cancionRepository.deleteByAutor(idAutor);
+        return "Elimino la cancion" + idAutor;
     }
 
     

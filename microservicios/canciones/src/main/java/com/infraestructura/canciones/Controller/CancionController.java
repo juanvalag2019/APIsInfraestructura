@@ -64,6 +64,16 @@ public class CancionController {
         }
     }
 
+    @DeleteMapping(value = "/autor/{idAutor} ")
+    public ResponseEntity<String> deleteSongs(@PathVariable("idAutor") Long idAutor) {
+        try {
+            String deleteSong = cancionService.deleteSongs(idAutor);
+            return new ResponseEntity<>(deleteSong, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PutMapping("/{songName}")
     Cancion updateSong(@RequestBody Cancion song,
             @PathVariable("songName") String nomSong) {

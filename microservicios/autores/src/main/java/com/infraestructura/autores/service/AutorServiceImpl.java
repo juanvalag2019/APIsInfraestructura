@@ -9,13 +9,16 @@ import com.infraestructura.autores.repository.AutorRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class AutorServiceImpl implements AutorService {
 
     @Autowired
     private AutorRepository autorRepo;
-
+    @Autowired
+    private RestTemplate restTemplate;
+    
     public Autor createAutor(Autor autor) {
         return autorRepo.save(autor);
     }
@@ -34,6 +37,9 @@ public class AutorServiceImpl implements AutorService {
 
     @Override
     public String deleteAutor(Long idAutor) {
+        
+        String url = "http://localhost:8082/api/songs/autor/" + idAutor;
+        restTemplate.delete(url);
         autorRepo.deleteById(idAutor);
         return "Elimino el autor" + idAutor;
     }
