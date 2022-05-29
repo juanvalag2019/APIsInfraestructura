@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CancionRepository extends CrudRepository<Cancion, Integer>{
-    Optional<Cancion> findById(String id);
+    Optional<Cancion> findById(Long id);
 }

@@ -14,12 +14,12 @@ public class CancionServiceImpl implements CancionService {
     CancionRepository cancionRepository;
 
     @Override
-    public void createSong(Cancion cancion) {
-        cancionRepository.save(cancion);        
+    public Cancion createSong(Cancion cancion) {
+        return cancionRepository.save(cancion);        
     }
 
     @Override
-    public Optional<Cancion> getSong(String idCancion) {        
+    public Optional<Cancion> getSong(Long idCancion) {        
         return cancionRepository.findById(idCancion);
     }
     
