@@ -1,6 +1,5 @@
 package com.infraestructura.canciones.Controller;
 
-import java.lang.StackWalker.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,59 +17,56 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-
 
 @Controller
 @RequestMapping("/api/songs")
 public class CancionController {
     @Autowired
-    private CancionService cancionService; 
+    private CancionService cancionService;
 
-    @GetMapping(value= "/{id}")
-    public ResponseEntity<Cancion> getSong (@PathVariable("id") Long idCancion) {
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Cancion> getSong(@PathVariable("id") Long idCancion) {
         Optional<Cancion> posibleCancion = cancionService.getSong(idCancion);
-        if(posibleCancion.isPresent()){
+        if (posibleCancion.isPresent()) {
             return new ResponseEntity<>(posibleCancion.get(), HttpStatus.OK);
-        }else{
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @GetMapping(value= "/getAllSongs")
-    public ResponseEntity<List> getAllSongs () {
+    @GetMapping(value = "/")
+    public ResponseEntity<List> getAllSongs() {
         List<Cancion> posiblesCanciones = cancionService.getAllSongs();
-        if(!posiblesCanciones.isEmpty()){
+        if (!posiblesCanciones.isEmpty()) {
             return new ResponseEntity<>(posiblesCanciones, HttpStatus.OK);
-        }else{
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @PostMapping(value = "/")    
-    public ResponseEntity<Cancion> createSong (@RequestBody Cancion cancion) {
-        try{            
+    @PostMapping(value = "/")
+    public ResponseEntity<Cancion> createSong(@RequestBody Cancion cancion) {
+        try {
             Cancion newSong = cancionService.createSong(cancion);
             return new ResponseEntity<>(newSong, HttpStatus.CREATED);
-        }catch(Exception e){
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    
-    @DeleteMapping(value = "/deleteSong/{id}")    
-    public ResponseEntity<String> deleteSong (@PathVariable("id") Long idCancion) {
-        try{            
-            String deleteSong = cancionService.deleteSong(idCancion);
-            return new ResponseEntity<>(deleteSong, HttpStatus.CREATED);
-        }catch(Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PutMapping("/updateSong/{updateSong}")
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<String> deleteSong(@PathVariable("id") Long idCancion) {
+        try {
+            String deleteSong = cancionService.deleteSong(idCancion);
+            return new ResponseEntity<>(deleteSong, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/{songName}")
     Cancion updateSong(@RequestBody Cancion song,
-            @PathVariable("updateSong") String nomSong) {
+            @PathVariable("songName") String nomSong) {
         return cancionService.updateSong(nomSong, song);
     }
 }
