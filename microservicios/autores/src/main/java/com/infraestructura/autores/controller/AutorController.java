@@ -55,16 +55,21 @@ public class AutorController {
     public ResponseEntity<String> deleteAutors(@PathVariable("id") Long idAutor) {
         try {
             String deleteAutors = autorService.deleteAutor(idAutor);
-            return new ResponseEntity<>(deleteAutors, HttpStatus.CREATED);
+            return new ResponseEntity<>(deleteAutors, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/{id}")
-    Autor updateAutors(@RequestBody Autor Autors,
-            @PathVariable String id) {
-        return autorService.updateAutor(id, Autors);
+    ResponseEntity updateAutors(@RequestBody Autor autor,
+            @PathVariable Long id) {
+        try {
+            Autor updated = autorService.updateAutor(id, autor);
+            return new ResponseEntity<Autor>(updated, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

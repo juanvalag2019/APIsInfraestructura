@@ -1,7 +1,6 @@
 package com.infraestructura.canciones.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,11 +8,9 @@ import com.infraestructura.canciones.Model.Autor;
 import com.infraestructura.canciones.Model.Cancion;
 import com.infraestructura.canciones.Repository.CancionRepository;
 
-import org.hibernate.loader.ColumnEntityAliases;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 
 @Service
 public class CancionServiceImpl implements CancionService {
@@ -24,25 +21,24 @@ public class CancionServiceImpl implements CancionService {
 
     @Override
     public Cancion createSong(Cancion cancion) {
-        String url = "http://localhost:8081/api/autors/" + cancion.getIdAutor();
-        Autor autor = (Autor) restTemplate.getForObject(url, Autor.class);
-        if(autor != null){
-            return cancionRepository.save(cancion);    
-        }else{
+        Autor autor = getAutorById(cancion.getAutor());
+        if (autor != null) {
+            return cancionRepository.save(cancion);
+        } else {
             return null;
         }
     }
 
     @Override
-    public Optional<Cancion> getSong(Long idCancion) {        
+    public Optional<Cancion> getSong(Long idCancion) {
         return cancionRepository.findById(idCancion);
     }
 
     @Override
     public List<Cancion> getAllSongs() {
         Iterable<Cancion> iterActividades = cancionRepository.findAll();
-        List<Cancion> canciones = new ArrayList<>();    
-        iterActividades.forEach(canciones::add);    
+        List<Cancion> canciones = new ArrayList<>();
+        iterActividades.forEach(canciones::add);
         return canciones;
     }
 
@@ -53,17 +49,39 @@ public class CancionServiceImpl implements CancionService {
     }
 
     @Override
-    public Cancion getSongByName(String nomSong){
+    public Cancion getSongByName(String nomSong) {
         Optional<Cancion> posibleSong = cancionRepository.findByTitulo(nomSong);
         return posibleSong.get();
     }
 
     @Override
-    public Cancion updateSong(String nomSong, Cancion song) {
-        Cancion old = getSongByName(nomSong);
-        song.setId(old.getId());
-        return cancionRepository.save(song);        
+    public Cancion updateSong(Long id, Cancion song) {
+        Optional<Cancion> possibleOld = getSong(id);
+        if (possibleOld.isPresent()) {
+            Cancion old = possibleOld.get();
+            song.setId(old.getId());
+            Autor autor = getAutorById(song.getAutor());
+            if (autor != null) {
+                return cancionRepository.save(song);
+            }
+        }
+        return null;
     }
 
-    
+    @Override
+    public String deleteSongs(Long autor) {
+        cancionRepository.deleteByAutor(autor);
+        return "Eliminó las canciones con autor: " + autor;
+    }
+
+    @Override
+    public Autor getAutorById(Long id) {
+        String url = "http://localhost:8081/api/autors/" + id;
+        try {
+            return (Autor) restTemplate.getForObject(url, Autor.class);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

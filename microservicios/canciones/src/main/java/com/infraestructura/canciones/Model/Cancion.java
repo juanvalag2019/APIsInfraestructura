@@ -7,7 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "cancion")
 public class Cancion {
@@ -18,36 +20,44 @@ public class Cancion {
     private String titulo;
     @Column(name = "duracion")
     private String duracion;
-    @Column(name = "autor", unique = true)
-    private long idAutor;
-    
+    @Column(name = "autor")
+    private long autor;
+
     public long getId() {
         return id;
     }
+
     public void setId(long id) {
         this.id = id;
     }
+
     public String getTitulo() {
         return titulo;
     }
+
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
+
     public String getDuracion() {
         return duracion;
     }
+
     public void setDuracion(String duracion) {
         this.duracion = duracion;
     }
-    public long getIdAutor() {
-        return idAutor;
+
+    public long getAutor() {
+        return autor;
     }
-    public void setIdAutor(long idAutor) {
-        this.idAutor = idAutor;
+
+    public void setAutor(long autor) {
+        this.autor = autor;
     }
+
     @Override
     public String toString() {
-        return "Cancion [duracion=" + duracion + ", id=" + id + ", idAutor=" + idAutor + ", titulo=" + titulo + "]";
+        return "Cancion [duracion=" + duracion + ", id=" + id + ", autor=" + autor + ", titulo=" + titulo + "]";
     }
-    
+
 }
