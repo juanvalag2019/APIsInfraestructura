@@ -24,16 +24,9 @@ public class CancionServiceImpl implements CancionService {
 
     @Override
     public Cancion createSong(Cancion cancion) {
-        String url = "http://localhost:8081/api/autors/getAllAutors";
-        Collection <Autor> list = (Collection<Autor>) restTemplate.getForObject(url, Collection.class);
-        boolean exist = true;
-        /*for(Autor autor: list){
-            if(autor.getId() == (cancion.getIdAutor())){
-                exist = true;
-                break;
-            }
-        }*/
-        if(exist){
+        String url = "http://localhost:8081/api/autors/" + cancion.getIdAutor();
+        Autor autor = (Autor) restTemplate.getForObject(url, Autor.class);
+        if(autor != null){
             return cancionRepository.save(cancion);    
         }else{
             return null;
