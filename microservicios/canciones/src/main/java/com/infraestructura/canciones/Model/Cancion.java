@@ -20,8 +20,8 @@ public class Cancion {
     private String titulo;
     @Column(name = "duracion")
     private String duracion;
-    @Column(name = "autor", unique = true)
-    private long idAutor;
+    @Column(name = "autor")
+    private long autor;
 
     public long getId() {
         return id;
@@ -47,17 +47,17 @@ public class Cancion {
         this.duracion = duracion;
     }
 
-    public long getIdAutor() {
-        return idAutor;
+    public long getAutor() {
+        return autor;
     }
 
-    public void setIdAutor(long idAutor) {
-        this.idAutor = idAutor;
+    public void setAutor(long autor) {
+        this.autor = autor;
     }
 
     @Override
     public String toString() {
-        return "Cancion [duracion=" + duracion + ", id=" + id + ", idAutor=" + idAutor + ", titulo=" + titulo + "]";
+        return "Cancion [duracion=" + duracion + ", id=" + id + ", autor=" + autor + ", titulo=" + titulo + "]";
     }
 
 }

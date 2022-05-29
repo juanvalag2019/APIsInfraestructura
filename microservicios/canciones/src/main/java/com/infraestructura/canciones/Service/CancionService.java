@@ -18,6 +18,8 @@ public interface CancionService {
 
     public Cancion updateSong(Long id, Cancion song);
 
+    public String deleteSongs(Long autor);
+
     public Cancion getSongByName(String nomSong);
 
     public Autor getAutorById(Long id);

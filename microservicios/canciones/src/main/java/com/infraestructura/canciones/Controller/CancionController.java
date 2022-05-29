@@ -42,12 +42,12 @@ public class CancionController {
 
     @PostMapping(value = "/")
     public ResponseEntity<Cancion> createSong(@RequestBody Cancion cancion) {
-        try {
-            Cancion newSong = cancionService.createSong(cancion);
+        Cancion newSong = cancionService.createSong(cancion);
+        if (newSong != null) {
             return new ResponseEntity<>(newSong, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+
     }
 
     @DeleteMapping(value = "/{id}")
@@ -68,6 +68,16 @@ public class CancionController {
             return new ResponseEntity<>(updated, HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
 
+    @DeleteMapping(value = "/autor/{autor}")
+    public ResponseEntity<String> deleteSongs(@PathVariable("autor") Long autor) {
+        try {
+            System.out.println("Id autor: " + autor);
+            String deleteSong = cancionService.deleteSongs(autor);
+            return new ResponseEntity<>(deleteSong, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

@@ -21,7 +21,7 @@ public class CancionServiceImpl implements CancionService {
 
     @Override
     public Cancion createSong(Cancion cancion) {
-        Autor autor = getAutorById(cancion.getIdAutor());
+        Autor autor = getAutorById(cancion.getAutor());
         if (autor != null) {
             return cancionRepository.save(cancion);
         } else {
@@ -60,7 +60,7 @@ public class CancionServiceImpl implements CancionService {
         if (possibleOld.isPresent()) {
             Cancion old = possibleOld.get();
             song.setId(old.getId());
-            Autor autor = getAutorById(song.getIdAutor());
+            Autor autor = getAutorById(song.getAutor());
             if (autor != null) {
                 return cancionRepository.save(song);
             }
@@ -69,10 +69,16 @@ public class CancionServiceImpl implements CancionService {
     }
 
     @Override
+    public String deleteSongs(Long autor) {
+        cancionRepository.deleteByAutor(autor);
+        return "Eliminó las canciones con autor: " + autor;
+    }
+
+    @Override
     public Autor getAutorById(Long id) {
-        String url = "http://localhost:8080/api/autors/" + id;
+        String url = "http://localhost:8081/api/autors/" + id;
         try {
-            return restTemplate.getForObject(url, Autor.class);
+            return (Autor) restTemplate.getForObject(url, Autor.class);
         } catch (Exception e) {
             return null;
         }

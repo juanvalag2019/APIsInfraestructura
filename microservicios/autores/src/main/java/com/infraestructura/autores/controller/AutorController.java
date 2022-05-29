@@ -55,9 +55,9 @@ public class AutorController {
     public ResponseEntity<String> deleteAutors(@PathVariable("id") Long idAutor) {
         try {
             String deleteAutors = autorService.deleteAutor(idAutor);
-            return new ResponseEntity<>(deleteAutors, HttpStatus.CREATED);
+            return new ResponseEntity<>(deleteAutors, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
