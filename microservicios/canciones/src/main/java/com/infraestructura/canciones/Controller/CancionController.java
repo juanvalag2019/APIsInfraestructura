@@ -68,7 +68,7 @@ public class CancionController {
         }
     }
 
-    @PutMapping("/{updateUsuario}")
+    @PutMapping("/{updateSong}")
     Cancion updateSong(@RequestBody Cancion song,
             @PathVariable String nomSong) {
         return cancionService.updateSong(nomSong, song);
