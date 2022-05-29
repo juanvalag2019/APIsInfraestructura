@@ -42,5 +42,7 @@
 	<modules>
 		<module>autores</module>
 		<module>canciones</module>
+		<module>gateway</module>
+		<module>frontend</module>
 	</modules>
 </project>
