@@ -1,24 +1,43 @@
 package com.infraestructura.canciones.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import com.infraestructura.canciones.Model.Autor;
 import com.infraestructura.canciones.Model.Cancion;
 import com.infraestructura.canciones.Repository.CancionRepository;
 
+import org.hibernate.loader.ColumnEntityAliases;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 
 @Service
 public class CancionServiceImpl implements CancionService {
     @Autowired
     CancionRepository cancionRepository;
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Override
     public Cancion createSong(Cancion cancion) {
-        return cancionRepository.save(cancion);        
+        String url = "http://localhost:8081/api/autors/getAllAutors";
+        Collection <Autor> list = (Collection<Autor>) restTemplate.getForObject(url, Collection.class);
+        boolean exist = true;
+        /*for(Autor autor: list){
+            if(autor.getId() == (cancion.getIdAutor())){
+                exist = true;
+                break;
+            }
+        }*/
+        if(exist){
+            return cancionRepository.save(cancion);    
+        }else{
+            return null;
+        }
     }
 
     @Override

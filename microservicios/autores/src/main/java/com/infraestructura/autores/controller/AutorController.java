@@ -65,7 +65,7 @@ public class AutorController {
         }
     }
 
-    @PutMapping("/{updateAutors}")
+    @PutMapping("/updateAutors/{updateAutors}")
     Autor updateAutors(@RequestBody Autor Autors,
             @PathVariable String nomAutors) {
         return autorService.updateAutor(nomAutors, Autors);
