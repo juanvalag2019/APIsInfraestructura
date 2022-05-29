@@ -14,7 +14,7 @@ public interface AutorService {
 
     public String deleteAutor(Long idAutor);
 
-    public Autor updateAutor(String nomAutor, Autor Autor);
+    public Autor updateAutor(Long id, Autor Autor);
 
     public Autor getAutorByName(String nomAutor);
 }

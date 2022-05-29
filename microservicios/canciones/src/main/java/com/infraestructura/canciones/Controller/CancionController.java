@@ -37,11 +37,7 @@ public class CancionController {
     @GetMapping(value = "/")
     public ResponseEntity<List> getAllSongs() {
         List<Cancion> posiblesCanciones = cancionService.getAllSongs();
-        if (!posiblesCanciones.isEmpty()) {
-            return new ResponseEntity<>(posiblesCanciones, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(posiblesCanciones, HttpStatus.OK);
     }
 
     @PostMapping(value = "/")
@@ -50,7 +46,7 @@ public class CancionController {
             Cancion newSong = cancionService.createSong(cancion);
             return new ResponseEntity<>(newSong, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -58,15 +54,20 @@ public class CancionController {
     public ResponseEntity<String> deleteSong(@PathVariable("id") Long idCancion) {
         try {
             String deleteSong = cancionService.deleteSong(idCancion);
-            return new ResponseEntity<>(deleteSong, HttpStatus.CREATED);
+            return new ResponseEntity<>(deleteSong, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping("/{songName}")
-    Cancion updateSong(@RequestBody Cancion song,
-            @PathVariable("songName") String nomSong) {
-        return cancionService.updateSong(nomSong, song);
+    @PutMapping("/{id}")
+    ResponseEntity<Cancion> updateSong(@RequestBody Cancion song,
+            @PathVariable("id") Long id) {
+        Cancion updated = cancionService.updateSong(id, song);
+        if (updated != null) {
+            return new ResponseEntity<>(updated, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+
     }
 }

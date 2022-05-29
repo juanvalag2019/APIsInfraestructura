@@ -27,8 +27,8 @@ public class AutorServiceImpl implements AutorService {
     @Override
     public List<Autor> getAllAutors() {
         Iterable<Autor> iterAutors = autorRepo.findAll();
-        List<Autor> autores = new ArrayList<>();    
-        iterAutors.forEach(autores::add);    
+        List<Autor> autores = new ArrayList<>();
+        iterAutors.forEach(autores::add);
         return autores;
     }
 
@@ -39,9 +39,13 @@ public class AutorServiceImpl implements AutorService {
     }
 
     @Override
-    public Autor updateAutor(String nomAutor, Autor autor) {
-        Autor old = getAutorByName(nomAutor);
-        autor.setId(old.getId());
+    public Autor updateAutor(Long id, Autor autor) {
+        Optional<Autor> possibleOld = findById(id);
+        System.out.println(possibleOld);
+        if (possibleOld.isPresent()) {
+            Autor old = possibleOld.get();
+            autor.setId(old.getId());
+        }
         return autorRepo.save(autor);
     }
 
