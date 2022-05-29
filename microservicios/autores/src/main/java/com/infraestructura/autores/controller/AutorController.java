@@ -45,30 +45,26 @@ public class AutorController {
         }
     }
 
-    @GetMapping(value= "/getAllAutors")
-    public ResponseEntity<List> getAllAutors () {
+    @GetMapping(value = "/")
+    public ResponseEntity getAllAutors() {
         List<Autor> posiblesAutores = autorService.getAllAutors();
-        if(!posiblesAutores.isEmpty()){
-            return new ResponseEntity<>(posiblesAutores, HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(posiblesAutores, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/deleteAutors/{id}")    
-    public ResponseEntity<String> deleteAutors (@PathVariable("id") Long idAutor) {
-        try{            
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<String> deleteAutors(@PathVariable("id") Long idAutor) {
+        try {
             String deleteAutors = autorService.deleteAutor(idAutor);
             return new ResponseEntity<>(deleteAutors, HttpStatus.CREATED);
-        }catch(Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PutMapping("/{updateAutors}")
+    @PutMapping("/{id}")
     Autor updateAutors(@RequestBody Autor Autors,
-            @PathVariable String nomAutors) {
-        return autorService.updateAutor(nomAutors, Autors);
+            @PathVariable String id) {
+        return autorService.updateAutor(id, Autors);
     }
 
 }
